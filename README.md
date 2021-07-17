@@ -1,5 +1,7 @@
 # README
 
+I've used React, scss, BEM, axios.
+
 ## Build app
 
 npm run build
