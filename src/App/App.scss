@@ -3,3 +3,7 @@ $body-color: tomato;
 body {
   background: $body-color;
 }
+
+mark {
+  white-space: pre;
+}

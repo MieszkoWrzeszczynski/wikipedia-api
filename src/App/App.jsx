@@ -1,11 +1,80 @@
 import './App.scss';
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { useDebounce } from 'use-debounce';
+import Search from './Search/Search';
+import Replace from './Replace/Replace';
+import List from 'components/List/List';
+import Loader from 'components/Loader/Loader';
+import {
+  replaceTextInAllItems,
+  replaceTextInFirstItem
+} from 'utils/replace';
+import {
+  parseSearchResult,
+  highlightSearchMatches
+} from 'utils/searchDataParser';
 
-function App() {
-  return (<div>
-    <h2>Hello world</h2>
-    <h3>Date : {new Date().toDateString()}</h3>
-  </div>)
-}
+const DEBOUNCE_TIMEOUT = 700;
+const obtainRequestUrl = searchPhrase => `http://en.wikipedia.org/w/api.php?&origin=*&action=query&list=search&format=json&srsearch=${searchPhrase}`;
+
+const App = () => {
+  const [searchPhrase, setSearchPhrase] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
+  const [phraseToReplace, setPhraseToReplace] = useState('');
+  const [debouncedSearchPhrase] = useDebounce(searchPhrase, DEBOUNCE_TIMEOUT);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchData = async () => {
+    setIsLoading(true);
+
+    const result = await axios(obtainRequestUrl(searchPhrase));
+
+    setSearchResult(parseSearchResult(result.data?.query?.search));
+    setIsLoading(false);
+  };
+
+  const onReplaceAll = useCallback(() => {
+    setSearchResult(replaceTextInAllItems({
+      items: searchResult,
+      oldValue: searchPhrase,
+      newValue: phraseToReplace
+    }));
+  }, [searchResult, searchPhrase, phraseToReplace]);
+
+  const onReplace = useCallback(() => {
+    setSearchResult(replaceTextInFirstItem({
+      items: searchResult,
+      oldValue: searchPhrase,
+      newValue: phraseToReplace,
+    }));
+  }, [searchResult, searchPhrase, phraseToReplace]);
+
+  useEffect(() => {
+    fetchData();
+  }, [debouncedSearchPhrase]);
+
+  return (
+    <div className="main__container">
+      <Search
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+        onSearch={fetchData}
+      />
+      <Replace
+        setPhraseToReplace={setPhraseToReplace}
+        phraseToReplace={phraseToReplace}
+        onReplaceAll={onReplaceAll}
+        onReplace={onReplace}
+      />
+      {isLoading ? <Loader /> : (
+        <List
+          data={highlightSearchMatches(searchResult, searchPhrase)}
+        />
+      )}
+    </div>
+  )
+};
+
 
 export default App
