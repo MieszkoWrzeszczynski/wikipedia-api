@@ -7,7 +7,7 @@ const Input = ({
   label = '',
   onChange = () => { }
 }) => (
-  <div className="button">
+  <div className="input">
     <label>
       {label}
     </label>
@@ -16,6 +16,7 @@ const Input = ({
       onChange={(e) => {
         onChange(e.target.value)
       }} />
+    <div className="input__line"></div>
   </div>
 );
 

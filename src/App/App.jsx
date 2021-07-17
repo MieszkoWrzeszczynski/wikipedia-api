@@ -17,15 +17,22 @@ import {
 
 const DEBOUNCE_TIMEOUT = 700;
 const obtainRequestUrl = searchPhrase => `http://en.wikipedia.org/w/api.php?&origin=*&action=query&list=search&format=json&srsearch=${searchPhrase}`;
+const searchResultInitData = [];
 
 const App = () => {
   const [searchPhrase, setSearchPhrase] = useState('');
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState(searchResultInitData);
   const [phraseToReplace, setPhraseToReplace] = useState('');
   const [debouncedSearchPhrase] = useDebounce(searchPhrase, DEBOUNCE_TIMEOUT);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
+    if (!searchPhrase) {
+      setSearchResult(searchResultInitData);
+
+      return;
+    }
+    
     setIsLoading(true);
 
     const result = await axios(obtainRequestUrl(searchPhrase));

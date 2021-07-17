@@ -1,3 +1,54 @@
-.button {
+$label-color: #A6A6A6;
+$input-color: #737373;
+$input-line-color: #2980B9;
+
+label {
+  font-family: 'Lato', sans-serif;
+  color: $label-color;
+}
+
+input {
   display: flex;
+  flex-direction: column;
+  background: 0;
+  border: 0;
+  outline: none;
+  width: 80vw;
+  max-width: 400px;
+  font-size: 1.5em;
+  padding-top: .5em;
+  transition: padding 0.3s 0.2s ease;
+  font-family: 'Lato', sans-serif;
+  color: $input-color;
+  font-weight: 500;
+
+  &:focus+.input__line {
+    &:after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.input {
+  position: relative;
+  margin-right: 2em;
+
+  & .input__line {
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    background: #bdc3c7;
+
+    &:after {
+      content: " ";
+      position: absolute;
+      float: right;
+      width: 100%;
+      height: 2px;
+      transform: scalex(0);
+      transition: transform 0.3s ease;
+
+      background: $input-line-color;
+    }
+  }
 }

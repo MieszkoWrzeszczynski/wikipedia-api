@@ -1,0 +1,15 @@
+$list-item-border-color: #2980B9;
+
+.list__item {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 0;
+  border-bottom: 2px solid $list-item-border-color;
+}
+
+.list__item-title {
+  font-weight: 700;
+  font-size: 1.25em;
+  color: #737373;
+  padding-bottom: 0.5em;
+}
