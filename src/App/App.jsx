@@ -16,7 +16,7 @@ import {
 } from 'utils/searchDataParser';
 
 const DEBOUNCE_TIMEOUT = 700;
-const obtainRequestUrl = searchPhrase => `http://en.wikipedia.org/w/api.php?&origin=*&action=query&list=search&format=json&srsearch=${searchPhrase}`;
+const obtainRequestUrl = searchPhrase => `https://en.wikipedia.org/w/api.php?&origin=*&action=query&list=search&format=json&srsearch=${searchPhrase}`;
 const searchResultInitData = [];
 
 const App = () => {
@@ -32,7 +32,7 @@ const App = () => {
 
       return;
     }
-    
+
     setIsLoading(true);
 
     const result = await axios(obtainRequestUrl(searchPhrase));
