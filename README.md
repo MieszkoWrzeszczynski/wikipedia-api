@@ -1,3 +1,6 @@
+# Live demo
+https://wikipedia-api-mieszko-wrzeszczynski.netlify.app/
+
 # README
 
 I've used React, scss, BEM, axios.
