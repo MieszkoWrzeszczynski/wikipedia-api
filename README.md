@@ -3,7 +3,7 @@ https://wikipedia-api-mieszko-wrzeszczynski.netlify.app/
 
 # README
 
-I've used React, scss, BEM, axios.
+I've used React, Sass.
 
 ## Fetching deps
 
